@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.apache.camel</groupId>
+		<artifactId>components</artifactId>
+		<version>2.18-SNAPSHOT</version>
+	</parent>
+
+	<groupId>de.dentrassi.camel</groupId>
+	<artifactId>de.dentrassi.camel.neoscada</artifactId>
+
+	<name>Camel :: Eclipse NeoSCADA</name>
+
+	<inceptionYear>2016</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>ctron</id>
+			<name>Jens Reimann</name>
+			<email>jreimann@redhat.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/ctron/de.dentrassi.camel.neoscada</connection>
+		<url>https://github.com/ctron/de.dentrassi.camel.neoscada</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<eclipse-neoscada-version>0.1.0-SNAPSHOT</eclipse-neoscada-version>
+
+		<!-- we do require java 8 -->
+		<jdk.version>1.8</jdk.version>
+
+		<camel.osgi.export.pkg>!*.internal.*,org.apache.camel.component.neoscada.*</camel.osgi.export.pkg>
+		<camel.osgi.export.service>
+			org.apache.camel.spi.ComponentResolver;component=neoscada-client,
+			org.apache.camel.spi.ComponentResolver;component=neoscada-server
+		</camel.osgi.export.service>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>eclipse.neoscada</id>
+			<url>http://download.eclipse.org/eclipsescada/downloads/org.eclipse.scada/drops/0.3.0/R201604140500/maven</url>
+		</repository>
+		<repository>
+			<id>apache.snapshots</id>
+			<name>Apache Development Snapshot Repository</name>
+			<url>https://repository.apache.org/content/repositories/snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.scada.core</groupId>
+			<artifactId>org.eclipse.scada.da.server.ngp</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+		
+        <dependency>
+            <groupId>org.eclipse.scada.core</groupId>
+            <artifactId>org.eclipse.scada.da.server.common</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>com.google.guava</groupId>
+        	<artifactId>guava</artifactId>
+        </dependency>
+
+        <!-- Testing dependencies -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-paho</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
