@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Endpoint;
@@ -37,6 +38,8 @@ public class ServerComponent extends UriEndpointComponent {
 
 	private CamelHive hive;
 	private HiveRunner runner;
+
+	private ExecutorService executor;
 
 	public ServerComponent() {
 		super(ServerEndpoint.class);
@@ -56,8 +59,28 @@ public class ServerComponent extends UriEndpointComponent {
 	protected void doStart() throws Exception {
 		super.doStart();
 
+		this.executor = getCamelContext().getExecutorServiceManager().newSingleThreadExecutor(this,
+				"NeoSCADAComponent");
+
 		this.hive = new CamelHive();
 		this.runner = new HiveRunner(this.hive, makeProtocol(), makeAddresses());
+	}
+
+	@Override
+	protected void doStop() throws Exception {
+		if (this.runner != null) {
+			this.runner.close();
+			this.runner = null;
+		}
+		if (this.executor != null) {
+			getCamelContext().getExecutorServiceManager().shutdown(this.executor);
+			this.executor = null;
+		}
+		super.doStop();
+	}
+
+	public ExecutorService getExecutor() {
+		return this.executor;
 	}
 
 	private ProtocolConfigurationFactory makeProtocol() {
@@ -87,15 +110,6 @@ public class ServerComponent extends UriEndpointComponent {
 
 	private Collection<InetSocketAddress> makeAddresses() {
 		return Collections.singletonList(new InetSocketAddress(this.port));
-	}
-
-	@Override
-	protected void doStop() throws Exception {
-		if (this.runner != null) {
-			this.runner.close();
-			this.runner = null;
-		}
-		super.doStop();
 	}
 
 	/**
