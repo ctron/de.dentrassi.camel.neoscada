@@ -14,6 +14,8 @@ public class ServerTest1 {
 				from("neoscada-server:MyItem").log("MyItem: ${body}");
 				from("timer:foo").setBody(simple("${random(0,100)}")).to("neoscada-server:MyItem");
 
+				from("milo-client:tcp://foo:bar@localhost:12685?nodeId=MyOPCItem&namespaceUri=my:urn")
+						.convertBodyTo(String.class).to("neoscada-server:MyItem");
 			}
 		});
 
