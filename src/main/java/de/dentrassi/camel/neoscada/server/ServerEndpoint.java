@@ -15,6 +15,8 @@
  */
 package de.dentrassi.camel.neoscada.server;
 
+import static de.dentrassi.camel.neoscada.server.interal.Exceptions.handleRuntimeErrors;
+
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -70,22 +72,22 @@ public class ServerEndpoint extends DefaultEndpoint {
 			return new InstantErrorFuture<>(new UnsupportedOperationException("Write not supported"));
 		}
 
-		final FutureTask<WriteResult> task = new FutureTask<>(() -> {
-			LinkedList<Exception> errors = null;
-			for (final ServerConsumer consumer : consumers) {
-				try {
-					consumer.processWrite(value, operationParameters);
-				} catch (final Exception e) {
-					if (errors == null) {
-						errors = new LinkedList<>();
+		final FutureTask<WriteResult> task = new FutureTask<>(new Runnable() {
+
+			@Override
+			public void run() {
+				LinkedList<Exception> errors = null;
+				for (final ServerConsumer consumer : consumers) {
+					try {
+						consumer.processWrite(value, operationParameters);
+					} catch (final Exception e) {
+						if (errors == null) {
+							errors = new LinkedList<>();
+						}
+						errors.add(e);
 					}
-					errors.add(e);
 				}
-			}
-			if (errors != null) {
-				final RuntimeException error = new RuntimeException(errors.pollFirst());
-				errors.stream().forEach(error::addSuppressed);
-				throw error;
+				handleRuntimeErrors(errors);
 			}
 		}, WriteResult.OK);
 

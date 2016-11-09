@@ -15,8 +15,9 @@
  */
 package de.dentrassi.camel.neoscada.server;
 
-import static java.util.Collections.emptyMap;
+import java.util.Collections;
 
+import org.eclipse.scada.core.Variant;
 import org.eclipse.scada.da.server.browser.common.FolderCommon;
 import org.eclipse.scada.da.server.browser.common.query.GroupFolder;
 import org.eclipse.scada.da.server.browser.common.query.GroupProvider;
@@ -51,12 +52,12 @@ public class CamelHive extends HiveCommon {
 	@Override
 	public void registerItem(final DataItem item) {
 		super.registerItem(item);
-		this.storage.added(new ItemDescriptor(item, emptyMap()));
+		this.storage.added(new ItemDescriptor(item, Collections.<String, Variant>emptyMap()));
 	}
 
 	@Override
 	public void unregisterItem(final DataItem item) {
-		this.storage.removed(new ItemDescriptor(item, emptyMap()));
+		this.storage.removed(new ItemDescriptor(item, Collections.<String, Variant>emptyMap()));
 		super.unregisterItem(item);
 	}
 

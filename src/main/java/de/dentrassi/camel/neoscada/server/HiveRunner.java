@@ -15,6 +15,8 @@
  */
 package de.dentrassi.camel.neoscada.server;
 
+import static de.dentrassi.camel.neoscada.server.interal.Exceptions.handleErrors;
+
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -61,10 +63,7 @@ public class HiveRunner implements AutoCloseable {
 			}
 		}
 
-		if (!errors.isEmpty()) {
-			final Exception e = errors.pollFirst();
-			errors.stream().forEach(e::addSuppressed);
-			throw e;
-		}
+		handleErrors(errors);
 	}
+
 }
