@@ -40,6 +40,18 @@
         <eclipse-neoscada-version>0.1.0-SNAPSHOT</eclipse-neoscada-version>
         <apache-camel-version>2.17.0</apache-camel-version>
     </properties>
+    
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.camel</groupId>
