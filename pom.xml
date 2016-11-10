@@ -5,7 +5,7 @@
 
     <groupId>de.dentrassi.camel</groupId>
     <artifactId>de.dentrassi.camel.neoscada</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>Camel :: Eclipse NeoSCADA</name>
@@ -26,7 +26,7 @@
         <url>https://github.com/ctron/de.dentrassi.camel.neoscada</url>
         <connection>scm:git:git://github.com/ctron/de.dentrassi.camel.neoscada.git</connection>
         <developerConnection>scm:git:git@github.com:ctron/de.dentrassi.camel.neoscada.git</developerConnection>
-      <tag>de.dentrassi.camel.neoscada-0.1.0</tag>
+      <tag>HEAD</tag>
   </scm>
     
     <licenses>
